@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coleta de Engrenagens</title>
+    <title>Site 1</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos específicos para a tela do jogo */
         #game-container {
             position: relative;
             width: 100%;
@@ -143,7 +142,7 @@
     <!-- JOGO -->
     <div id="game-screen">
         <h2 style="text-align: center;">Colete as Engrenagens!</h2>
-        <h3 style="text-align: center;">Pegue todas as engrenagens par acelerar o desenvolvimento de sua pesquisa.</h3>
+        <h3 style="text-align: center;">Pegue 20 engrenagens para complear o desenvolvimento de sua pesquisa"</h3>
         <div id="game-container">
             <div id="score">Pontos: 0</div>
             <div id="player">
@@ -157,15 +156,12 @@
         </div>
     </div>
 
-    <!-- MENSAGEM FINAL -->
     <div id="message-screen">
         <div class="modal-card">
             <p>Parabéns! ao se esforçar muito em suas pesquisas vc fez uma descoberta muita importante, e sua recompença foi nada! o seu nome foi tirado do trebalaho pelo simples fato de ser mulher</p>
             <button id="learn-more-btn">saiba mais</button>
         </div>
     </div>
-
-    <!-- SITE REVELADO APÓS CLICAR EM "SAIBA MAIS" -->
     <div id="main-site-content">
         <h1 class="aoi">Genios ocultos</h1>
         <p class="aoi2">O apagamento histórico das mulheres na ciência e na cultura distorce a realidade,
@@ -206,8 +202,6 @@
           </div>
         </footer>
     </div>
-
-    <!-- Script do Jogo -->
     <script>
         const gameContainer = document.getElementById('game-container');
         const player = document.getElementById('player');
@@ -253,7 +247,6 @@
             player.style.left = playerX + 'px';
         }
 
-        // Atualização contínua do teclado
         function updateGameLoop() {
             if (!gameActive) return;
             if (keys.ArrowLeft) movePlayer(-10);
@@ -262,7 +255,6 @@
         }
         requestAnimationFrame(updateGameLoop);
 
-        // Criação de engrenagens
         function createGear() {
             if (!gameActive) return;
 
@@ -316,7 +308,7 @@
             requestAnimationFrame(fall);
         }
 
-        // Gerar engrenagens a cada 1 segundo
+  
         const gearInterval = setInterval(() => {
             if (!gameActive) {
                 clearInterval(gearInterval);
@@ -325,7 +317,7 @@
             createGear();
         }, 1000);
 
-        // Ação do botão "saiba mais"
+
         learnMoreBtn.addEventListener('click', () => {
             messageScreen.style.display = 'none';
             gameScreen.style.display = 'none';
