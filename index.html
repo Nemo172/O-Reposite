@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coleta de Engrenagens</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos específicos para a tela do jogo */
+        #game-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 450px;
+            background: #222;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 2px solid #555;
+        }
+
+        #score {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        #player {
+            position: absolute;
+            bottom: 10px;
+            left: 275px;
+            width: 50px;
+            height: 60px;
+            background: #ff6b81;
+            border-radius: 25px 25px 5px 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        #basket {
+            position: absolute;
+            bottom: 0px;
+            left: 10px;
+            width: 30px;
+            height: 15px;
+            background: #d35400;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .gear {
+            position: absolute;
+            top: -30px;
+            width: 25px;
+            height: 25px;
+            background: #f1c40f;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 4px #e67e22;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            font-size: 1.2rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .control-btn:active {
+            background-color: #555;
+        }
+
+        /* Tela de Mensagem Final */
+        #message-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-card p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .modal-card button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-card button:hover {
+            background-color: #c0392b;
+        }
+
+        #main-site-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- JOGO -->
+    <div id="game-screen">
+        <h2 style="text-align: center;">Colete as Engrenagens!</h2>
+        <h3 style="text-align: center;">Pegue todas as engrenagens par acelerar o desenvolvimento de sua pesquisa.</h3>
+        <div id="game-container">
+            <div id="score">Pontos: 0</div>
+            <div id="player">
+                🧍‍♀️
+                <div id="basket"></div>
+            </div>
+        </div>
+        <div id="controls">
+            <button class="control-btn" id="left-btn">◀</button>
+            <button class="control-btn" id="right-btn">▶</button>
+        </div>
+    </div>
+
+    <!-- MENSAGEM FINAL -->
+    <div id="message-screen">
+        <div class="modal-card">
+            <p>Parabéns! ao se esforçar muito em suas pesquisas vc fez uma descoberta muita importante, e sua recompença foi nada! o seu nome foi tirado do trebalaho pelo simples fato de ser mulher</p>
+            <button id="learn-more-btn">saiba mais</button>
+        </div>
+    </div>
+
+    <!-- SITE REVELADO APÓS CLICAR EM "SAIBA MAIS" -->
+    <div id="main-site-content">
+        <h1 class="aoi">Genios ocultos</h1>
+        <p class="aoi2">O apagamento histórico das mulheres na ciência e na cultura distorce a realidade,
+        fazendo parecer que a genialidade é um privilégio exclusivamente masculino. 
+        Isso perpetua estereótipos de que mulheres são menos capazes em áreas técnicas 
+        e científicas, afastando novas gerações de vocações nesses campos. Além disso, 
+        priva a sociedade de referências fundamentais, enfraquecendo a diversidade de
+        perspectivas indispensável para a inovação e o avanço do conhecimento.</p>
+        
+        <div class="bloco">
+            <img src="imagens/Rosalind.png" width="200" height="200" alt="Rosalind Franklin">
+            <p><a href="https://pt.wikipedia.org/wiki/Rosalind_Franklin">Rosalind Franklin</a> foi uma brilhante química e cristalógrafa britânica cuja pesquisa com difração de raios X foi fundamental para decifrar a estrutura de dupla hélice do DNA. O célebre "Fotografia 51", obtido por ela e seu aluno Raymond Gosling, forneceu as evidências experimentais essenciais usadas sem seu consentimento por James Watson e Francis Crick. Apesar de seu papel crucial na descoberta, seu trabalho foi marginalizado em vida e não recebeu o devido reconhecimento na época. Hoje, ela é celebrada como uma das cientistas mais importantes do século XX e um símbolo da contribuição feminina para a ciência.</p>
+        </div>
+
+        <div class="bloco">
+            <img src="imagens/Jocelyn Bell Burnell.png" width="200" height="200" alt="Jocelyn Bell Burnell">
+            <p>A astrofísica do Norte da Irlanda <a href="https://pt.wikipedia.org/wiki/Rosalind_Franklin">Jocelyn Bell Burnell</a> descobriu os púlsares (estrelas de nêutrons) enquanto era estudante de pós-graduação. Ela foi a primeira pessoa a detectar e analisar os sinais de rádio emitidos por essas estrelas no universo. Apesar de ter sido a responsável direta pela observação e identificação do fenômeno, o Prêmio Nobel de Física de 1974 pela descoberta foi entregue apenas ao seu orientador, Antony Hewish, excluindo totalmente o nome de Jocelyn da premiação.</p>
+        </div>
+         
+        <div class="bloco">
+            <img src="imagens/JKR.png" width="200" height="200" alt="imagem de J.K Rowling">
+            <p>A consagrada autora <a href="https://pt.wikipedia.org/wiki/J._K._Rowling">J.K Rowling</a> decidiu ingressar no gênero de ficção policial publicando a renomada série Cormoran Strike sob o pseudônimo masculino de Robert Galbraith. Essa escolha estratégica permitiu que seus romances fossem avaliados de maneira neutra e imparcial pela crítica e pelo público leitor. Ao esconder sua verdadeira identidade, ela buscou construir uma nova carreira literária sem o peso da fama mundial e das altíssimas expectativas geradas pelo sucesso estrondoso de Harry Potter. A experiência durou até que sua autoria fosse descoberta, mas consolidou o talento da escritora em um universo narrativo completamente diferente do que a consagrou.</p>
+        </div>
+
+        <div class="bloco">
+            <img src="imagens/IB.png" width="200" height="200" alt="imagem das Irmãs Brontë">
+            <p> Em meados do século XIX, as <a href = "https://pt.wikipedia.org/wiki/As_Irm%C3%A3s_Bront%C3%AB">irmãs Brontë</a>, escritoras britânicas, enfrentaram barreiras culturais e adotaram os pseudônimos masculinos de Currer, Ellis e Acton Bell para lançar suas obras. Elas escolheram nomes que mantivessem as iniciais originais de seus próprios nomes como uma forma sutil de preservar a identidade de cada uma. Sob essa fachada, publicaram romances que se tornaram clássicos absolutos da literatura mundial, como Jane Eyre, O Morro dos Ventos Uivantes e Agnes Grey. A estratégia garantiu que os livros fossem aceitos pelas editoras e lidos sem o forte preconceito literário que marginalizava autoras mulheres na sociedade vitoriana da época.</p>
+        </div>
+
+        <div class="bloco">
+            <img src="imagens/inte.png" width="200" height="200" alt="Efeito Matilda">
+            <p>Estimar um número exato é impossível, pois ao longo dos séculos incontáveis mulheres tiveram suas contribuições ignoradas em diversas áreas, desde a ciência até as artes. Historiadores apontam que a grande maioria das pesquisadoras, inventoras e pensadoras da Antiguidade e da Era Moderna teve seu trabalho registrado sob pseudônimos masculinos ou atribuído a homens. Esse fenômeno sistemático, conhecido como "<a href = "https://pt.wikipedia.org/wiki/Efeito_Matilda">Efeito Matilda</a>", afetou milhares de mentes brilhantes que foram apagadas dos registros oficiais. Portanto, o número real é incalculável e representa uma enorme perda de patrimônio histórico e cultural para a humanidade.</p>
+        </div>
+        <footer>
+          <div class="bloco2">
+            <img src="imagens/frog-wheel.gif" width="52" height="65" alt="Frog wheel">
+            <h5>Nemo</h5>
+          </div>
+        </footer>
+    </div>
+
+    <!-- Script do Jogo -->
+    <script>
+        const gameContainer = document.getElementById('game-container');
+        const player = document.getElementById('player');
+        const scoreDisplay = document.getElementById('score');
+        const messageScreen = document.getElementById('message-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const mainSiteContent = document.getElementById('main-site-content');
+        const learnMoreBtn = document.getElementById('learn-more-btn');
+
+        let score = 0;
+        let playerX = 275;
+        const playerSpeed = 25;
+        let gameActive = true;
+
+        const keys = { ArrowLeft: false, ArrowRight: false };
+
+        // Movimentação do teclado
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') keys.ArrowLeft = true;
+            if (e.key === 'ArrowRight') keys.ArrowRight = true;
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft') keys.ArrowLeft = false;
+            if (e.key === 'ArrowRight') keys.ArrowRight = false;
+        });
+
+        // Botões na tela
+        document.getElementById('left-btn').addEventListener('click', () => {
+            movePlayer(-playerSpeed);
+        });
+        document.getElementById('right-btn').addEventListener('click', () => {
+            movePlayer(playerSpeed);
+        });
+
+        function movePlayer(amount) {
+            if (!gameActive) return;
+            playerX += amount;
+            if (playerX < 0) playerX = 0;
+            if (playerX > gameContainer.clientWidth - player.clientWidth) {
+                playerX = gameContainer.clientWidth - player.clientWidth;
+            }
+            player.style.left = playerX + 'px';
+        }
+
+        // Atualização contínua do teclado
+        function updateGameLoop() {
+            if (!gameActive) return;
+            if (keys.ArrowLeft) movePlayer(-10);
+            if (keys.ArrowRight) movePlayer(10);
+            requestAnimationFrame(updateGameLoop);
+        }
+        requestAnimationFrame(updateGameLoop);
+
+        // Criação de engrenagens
+        function createGear() {
+            if (!gameActive) return;
+
+            const gear = document.createElement('div');
+            gear.classList.add('gear');
+            const randomX = Math.random() * (gameContainer.clientWidth - 25);
+            gear.style.left = randomX + 'px';
+            gameContainer.appendChild(gear);
+
+            let gearY = -30;
+            const gearSpeed = 3;
+
+            function fall() {
+                if (!gameActive) {
+                    gear.remove();
+                    return;
+                }
+
+                gearY += gearSpeed;
+                gear.style.top = gearY + 'px';
+
+                // Verificar colisão com o boneco
+                const playerRect = player.getBoundingClientRect();
+                const gearRect = gear.getBoundingClientRect();
+
+                if (
+                    gearRect.bottom >= playerRect.top &&
+                    gearRect.top <= playerRect.bottom &&
+                    gearRect.right >= playerRect.left &&
+                    gearRect.left <= playerRect.right
+                ) {
+                    score++;
+                    scoreDisplay.textContent = 'Pontos: ' + score;
+                    gear.remove();
+
+                    if (score >= 20) {
+                        gameActive = false;
+                        messageScreen.style.display = 'flex';
+                    }
+                    return;
+                }
+
+                // Remover se passar da tela
+                if (gearY > gameContainer.clientHeight) {
+                    gear.remove();
+                } else {
+                    requestAnimationFrame(fall);
+                }
+            }
+
+            requestAnimationFrame(fall);
+        }
+
+        // Gerar engrenagens a cada 1 segundo
+        const gearInterval = setInterval(() => {
+            if (!gameActive) {
+                clearInterval(gearInterval);
+                return;
+            }
+            createGear();
+        }, 1000);
+
+        // Ação do botão "saiba mais"
+        learnMoreBtn.addEventListener('click', () => {
+            messageScreen.style.display = 'none';
+            gameScreen.style.display = 'none';
+            mainSiteContent.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
