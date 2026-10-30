@@ -1,5 +1,8 @@
 Esse é o codigo do site q eu fiz, a parte do css eu fiz tbm, menos a q se refere ao jogo
 
+Esse site foi programado para qn importe o tamanho da tela, o texto e as imagens vão ficar no mesmo lugar e se ajustar as mesmas
+
+
 
 
 '<!DOCTYPE html>
